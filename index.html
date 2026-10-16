@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulseCare Hospital Suite - Admin Panel</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+    </style>
+</head>
+<body class="h-full bg-slate-900 text-slate-100 flex flex-col justify-between">
+
+    <!-- Header & App Bar -->
+    <header class="bg-slate-800/80 backdrop-blur-md border-b border-slate-700 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="navigate('home')">
+                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                    <i class="fas fa-heart-pulse text-white text-xl"></i>
+                </div>
+                <span class="font-bold text-lg tracking-wide text-white">Pulse<span class="text-indigo-400">Care</span></span>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-1 text-sm font-medium">
+                <button onclick="navigate('home')" class="nav-link px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-700 hover:text-white transition" data-view="home">Home</button>
+                <button onclick="navigate('doctors')" class="nav-link px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-700 hover:text-white transition" data-view="doctors">Doctor Profile</button>
+                <button onclick="navigate('appointment')" class="nav-link px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-700 hover:text-white transition" data-view="appointment">Book Appointment</button>
+                <button onclick="navigate('history')" class="nav-link px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-700 hover:text-white transition" data-view="history">Patient History</button>
+                <button onclick="navigate('admin-login')" class="nav-link px-3 py-2 rounded-lg text-indigo-400 font-bold hover:bg-indigo-950/50 hover:text-indigo-300 transition" data-view="admin-login"><i class="fas fa-shield-alt mr-1"></i> Admin Panel</button>
+            </nav>
+
+            <!-- Auth Quick Actions -->
+            <div class="flex items-center gap-2 text-sm">
+                <button onclick="navigate('patient-login')" class="px-3 py-1.5 rounded-lg border border-slate-600 text-slate-200 hover:bg-slate-700 transition">Patient Login</button>
+                <button onclick="navigate('doctor-login')" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white hover:bg-indigo-500 transition shadow-sm">Doctor Portal</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow">
+
+        <!-- 1. HOME / LANDING -->
+        <section id="home" class="view-section active py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="inline-block px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold rounded-full uppercase tracking-wider">Next-Gen Hospital Management</span>
+                    <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                        Seamless Healthcare <span class="text-indigo-400">At Your Fingertips</span>
+                    </h1>
+                    <p class="text-slate-400 text-base leading-relaxed">
+                        Manage patient histories, book specialized physician consultations instantly, and control system-wide bookings through the administrative dashboard.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <button onclick="navigate('appointment')" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 transition">
+                            <i class="fas fa-calendar-plus mr-2"></i> Reserve Appointment
+                        </button>
+                        <button onclick="navigate('admin-login')" class="px-6 py-3 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-xl transition">
+                            <i class="fas fa-cogs mr-2"></i> Admin Control Panel
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-slate-800/60 border border-slate-700 p-8 rounded-3xl shadow-xl space-y-6">
+                    <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i class="fas fa-bolt text-amber-400"></i> Quick Emergency Action
+                    </h3>
+                    <p class="text-sm text-slate-400">Need immediate care? Dispatch our emergency rapid response team or schedule priority triage.</p>
+                    <div class="p-4 bg-slate-900 rounded-2xl border border-slate-700 flex justify-between items-center">
+                        <div>
+                            <span class="block text-xs text-slate-400 uppercase font-semibold">Emergency Line</span>
+                            <span class="text-lg font-bold text-white">+1 (800) 911-PULSE</span>
+                        </div>
+                        <button onclick="alert('Emergency alert dispatched! Ambulance unit notified.')" class="px-4 py-2 bg-red-600 hover:bg-red-500 text-white font-bold text-xs rounded-xl uppercase tracking-wider transition">SOS Dispatch</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. DOCTOR PROFILE DIRECTORY -->
+        <section id="doctors" class="view-section py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-white">Our Specialist Physicians</h2>
+                    <p class="text-slate-400 text-sm mt-1">Explore verified doctor profiles, credentials, and consultation timings.</p>
+                </div>
+                <input type="text" id="doc-search-box" oninput="filterDoctorsDir()" placeholder="Filter by name or specialty..." class="px-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500 w-full md:w-72">
+            </div>
+            <div id="doctors-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Populated via JS -->
+            </div>
+        </section>
+
+        <!-- 3. APPOINTMENT RESERVATION -->
+        <section id="appointment" class="view-section py-16 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
+            <div class="bg-slate-800 border border-slate-700 rounded-3xl p-8 shadow-2xl">
+                <h2 class="text-2xl font-extrabold text-white mb-2">Appointment Reservation</h2>
+                <p class="text-slate-400 text-sm mb-6">Fill out the form below to secure your consultation slot.</p>
+                
+                <form onsubmit="handleNewAppointment(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Patient Name</label>
+                            <input type="text" id="bk-name" required class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Contact Phone</label>
+                            <input type="tel" id="bk-phone" required class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Select Department</label>
+                            <select id="bk-dept" onchange="populateDoctorsForBooking()" required class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500">
+                                <option value="">Choose Department</option>
+                                <option value="Cardiology">Cardiology</option>
+                                <option value="Neurology">Neurology</option>
+                                <option value="Orthopedics">Orthopedics</option>
+                                <option value="Pediatrics">Pediatrics</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Select Doctor</label>
+                            <select id="bk-doctor" required class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500">
+                                <option value="">Choose Doctor First</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Appointment Date</label>
+                            <input type="date" id="bk-date" required class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Time Slot</label>
+                            <select id="bk-time" required class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500">
+                                <option value="10:00 AM">10:00 AM</option>
+                                <option value="11:30 AM">11:30 AM</option>
+                                <option value="02:00 PM">02:00 PM</option>
+                                <option value="04:00 PM">04:00 PM</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Symptoms / Notes</label>
+                        <textarea id="bk-notes" rows="2" class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500"></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl shadow-lg transition">Confirm Reservation</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 4. PATIENT HISTORY -->
+        <section id="history" class="view-section py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+            <div class="bg-slate-800 border border-slate-700 rounded-3xl p-8 shadow-xl">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-extrabold text-white">Patient Records & Visit History</h2>
+                    <button onclick="navigate('appointment')" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-xl transition">New Booking</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="border-b border-slate-700 text-slate-400 text-xs uppercase">
+                                <th class="p-3">ID / Patient</th>
+                                <th class="p-3">Doctor</th>
+                                <th class="p-3">Date & Time</th>
+                                <th class="p-3">Diagnosis</th>
+                                <th class="p-3">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-table" class="divide-y divide-slate-700/50">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. PATIENT LOGIN -->
+        <section id="patient-login" class="view-section py-20 px-4 max-w-md mx-auto">
+            <div class="bg-slate-800 border border-slate-700 rounded-3xl p-8 shadow-xl">
+                <h2 class="text-2xl font-extrabold text-white mb-2 text-center">Patient Portal</h2>
+                <p class="text-slate-400 text-sm mb-6 text-center">Sign in to manage your appointments</p>
+                <form onsubmit="handleLogin(event, 'history')" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Email</label>
+                        <input type="email" value="patient@pulse.com" required class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Password</label>
+                        <input type="password" value="password" required class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none">
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition">Sign In</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 6. DOCTOR LOGIN & DASHBOARD -->
+        <section id="doctor-login" class="view-section py-20 px-4 max-w-md mx-auto">
+            <div id="doc-login-card" class="bg-slate-800 border border-slate-700 rounded-3xl p-8 shadow-xl">
+                <h2 class="text-2xl font-extrabold text-white mb-2 text-center">Doctor Login</h2>
+                <p class="text-slate-400 text-sm mb-6 text-center">Access appointment queue and approvals</p>
+                <form onsubmit="handleDocLogin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Doctor Email</label>
+                        <input type="email" id="doc-mail-input" value="dr.logan@pulse.com" required class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Password</label>
+                        <input type="password" value="password" required class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none">
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-xl transition">Doctor Portal Login</button>
+                </form>
+            </div>
+
+            <div id="doc-dash-card" class="hidden bg-slate-800 border border-slate-700 rounded-3xl p-8 shadow-xl max-w-4xl mx-auto">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-white">Dr. Logan's Appointment Dashboard</h2>
+                    <button onclick="logoutDoc()" class="px-3 py-1 bg-red-600/20 text-red-400 text-xs rounded-lg">Logout</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="border-b border-slate-700 text-slate-400 text-xs uppercase">
+                                <th class="p-3">Patient</th>
+                                <th class="p-3">Time</th>
+                                <th class="p-3">Notes</th>
+                                <th class="p-3">Status</th>
+                                <th class="p-3 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="doc-queue-table" class="divide-y divide-slate-700/50"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. ADMIN PANEL LOGIN & MASTER CONTROL DASHBOARD -->
+        <section id="admin-login" class="view-section py-20 px-4 max-w-4xl mx-auto">
+            <!-- Admin Login Card -->
+            <div id="admin-login-card" class="bg-slate-800 border border-slate-700 rounded-3xl p-8 shadow-xl max-w-md mx-auto">
+                <h2 class="text-2xl font-extrabold text-white mb-2 text-center"><i class="fas fa-shield-alt text-amber-400 mr-2"></i>Admin Control Panel</h2>
+                <p class="text-slate-400 text-sm mb-6 text-center">Master access for system management & bookings control</p>
+                <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Admin Username</label>
+                        <input type="text" id="admin-user" value="admin" required class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Master Password</label>
+                        <input type="password" id="admin-pass" value="admin123" required class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none">
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-xl transition shadow-lg shadow-amber-600/30">Authenticate Admin</button>
+                </form>
+                <div class="mt-4 text-center text-xs text-slate-500">Demo Credentials: <strong class="text-slate-400">admin / admin123</strong></div>
+            </div>
+
+            <!-- Admin Master Dashboard (Hidden until login) -->
+            <div id="admin-dashboard-card" class="hidden bg-slate-800 border border-slate-700 rounded-3xl p-8 shadow-xl">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 pb-6 border-b border-slate-700">
+                    <div>
+                        <span class="text-amber-400 font-semibold text-xs uppercase tracking-widest bg-amber-950/50 px-3 py-1 rounded-full border border-amber-800/50">Administrator Control Center</span>
+                        <h2 class="text-2xl font-extrabold text-white mt-1">System Master Dashboard</h2>
+                    </div>
+                    <button onclick="logoutAdmin()" class="px-4 py-2 bg-red-600/20 text-red-400 border border-red-500/30 text-xs font-semibold rounded-xl hover:bg-red-600 hover:text-white transition">
+                        <i class="fas fa-sign-out-alt mr-1"></i> Admin Logout
+                    </button>
+                </div>
+
+                <!-- System Stats Overview -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700">
+                        <span class="text-xs text-slate-400 uppercase font-semibold">Total Bookings</span>
+                        <p id="adm-stat-total" class="text-3xl font-extrabold text-white mt-2">0</p>
+                    </div>
+                    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700">
+                        <span class="text-xs text-amber-400 uppercase font-semibold">Pending Approvals</span>
+                        <p id="adm-stat-pending" class="text-3xl font-extrabold text-amber-400 mt-2">0</p>
+                    </div>
+                    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700">
+                        <span class="text-xs text-emerald-400 uppercase font-semibold">Approved Bookings</span>
+                        <p id="adm-stat-approved" class="text-3xl font-extrabold text-emerald-400 mt-2">0</p>
+                    </div>
+                </div>
+
+                <!-- Master Bookings Control Table -->
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-lg text-white">All System Bookings & Queue Management</h3>
+                    <button onclick="navigate('appointment')" class="px-3 py-1.5 bg-indigo-600 text-white text-xs font-semibold rounded-lg hover:bg-indigo-500 transition"><i class="fas fa-plus mr-1"></i> Force Add Booking</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="border-b border-slate-700 text-slate-400 text-xs uppercase">
+                                <th class="p-3">ID / Patient</th>
+                                <th class="p-3">Assigned Doctor</th>
+                                <th class="p-3">Date & Time</th>
+                                <th class="p-3">Notes</th>
+                                <th class="p-3">Status</th>
+                                <th class="p-3 text-right">Master Control Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-bookings-table" class="divide-y divide-slate-700/50">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800/40 border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+        &copy; 2026 PulseCare Hospital Suite. All rights reserved.
+    </footer>
+
+    <!-- Script Logic -->
+    <script>
+        const doctorsData = [
+            { id: 1, name: "Dr. Marcus Logan, MD", dept: "Cardiology", spec: "Senior Consultant", exp: "12 yrs", img: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=300&q=80" },
+            { id: 2, name: "Dr. Elena Rostova, Ph.D", dept: "Neurology", spec: "Brain Surgeon", exp: "9 yrs", img: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=300&q=80" },
+            { id: 3, name: "Dr. Arthur Pendelton", dept: "Orthopedics", spec: "Joint Specialist", exp: "14 yrs", img: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=300&q=80" }
+        ];
+
+        let appointments = [
+            { id: "PULSE-101", patient: "Sarah Connor", doctor: "Dr. Marcus Logan, MD", dept: "Cardiology", date: "2026-06-20", time: "10:00 AM", notes: "Routine checkup", status: "Approved" },
+            { id: "PULSE-102", patient: "John Doe", doctor: "Dr. Elena Rostova, Ph.D", dept: "Neurology", date: "2026-06-22", time: "02:00 PM", notes: "Migraine scans", status: "Pending" }
+        ];
+
+        function navigate(viewId) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if(viewId === 'doctors') renderDoctors(doctorsData);
+            if(viewId === 'history') renderHistory();
+            if(viewId === 'appointment') populateDoctorsForBooking();
+            if(viewId === 'admin-login') {
+                // Keep login state if already authenticated
+                if(!document.getElementById('admin-dashboard-card').classList.contains('hidden')) {
+                    renderAdminDashboard();
+                }
+            }
+        }
+
+        function renderDoctors(list) {
+            const container = document.getElementById('doctors-container');
+            container.innerHTML = list.map(d => `
+                <div class="bg-slate-800 border border-slate-700 rounded-2xl overflow-hidden p-5 flex flex-col">
+                    <img src="${d.img}" class="w-full h-48 object-cover rounded-xl mb-4">
+                    <span class="text-xs text-indigo-400 font-semibold uppercase">${d.dept}</span>
+                    <h3 class="text-lg font-bold text-white mt-1">${d.name}</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">${d.spec} &bull; ${d.exp}</p>
+                    <button onclick="navigate('appointment')" class="mt-4 w-full py-2 bg-slate-700 hover:bg-indigo-600 text-white text-xs font-semibold rounded-xl transition">Book Visit</button>
+                </div>
+            `).join('');
+        }
+
+        function filterDoctorsDir() {
+            const q = document.getElementById('doc-search-box').value.toLowerCase();
+            renderDoctors(doctorsData.filter(d => d.name.toLowerCase().includes(q) || d.dept.toLowerCase().includes(q)));
+        }
+
+        function populateDoctorsForBooking() {
+            const dept = document.getElementById('bk-dept').value;
+            const docSelect = document.getElementById('bk-doctor');
+            const filtered = doctorsData.filter(d => d.dept === dept);
+            docSelect.innerHTML = filtered.length ? filtered.map(d => `<option value="${d.name}">${d.name}</option>`).join('') : '<option value="">No doctors available</option>';
+        }
+
+        function handleNewAppointment(e) {
+            e.preventDefault();
+            appointments.unshift({
+                id: "PULSE-" + Math.floor(100+Math.random()*900),
+                patient: document.getElementById('bk-name').value,
+                doctor: document.getElementById('bk-doctor').value,
+                dept: document.getElementById('bk-dept').value,
+                date: document.getElementById('bk-date').value,
+                time: document.getElementById('bk-time').value,
+                notes: document.getElementById('bk-notes').value || "None",
+                status: "Pending"
+            });
+            alert("Appointment reserved successfully!");
+            navigate('history');
+        }
+
+        function renderHistory() {
+            document.getElementById('history-table').innerHTML = appointments.map(a => `
+                <tr class="border-b border-slate-700/50">
+                    <td class="p-3"><strong class="text-white">${a.patient}</strong><br><span class="text-xs text-slate-400">${a.id}</span></td>
+                    <td class="p-3">${a.doctor}<br><span class="text-xs text-indigo-400">${a.dept}</span></td>
+                    <td class="p-3">${a.date}<br><span class="text-xs text-slate-400">${a.time}</span></td>
+                    <td class="p-3 text-slate-300 text-xs">${a.notes}</td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold ${a.status === 'Approved' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'}">${a.status}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function handleLogin(e, target) {
+            e.preventDefault();
+            alert("Login successful!");
+            navigate(target);
+        }
+
+        function handleDocLogin(e) {
+            e.preventDefault();
+            document.getElementById('doc-login-card').classList.add('hidden');
+            document.getElementById('doc-dash-card').classList.remove('hidden');
+            renderDocQueue();
+        }
+
+        function logoutDoc() {
+            document.getElementById('doc-dash-card').classList.add('hidden');
+            document.getElementById('doc-login-card').classList.remove('hidden');
+        }
+
+        function renderDocQueue() {
+            document.getElementById('doc-queue-table').innerHTML = appointments.map(a => `
+                <tr class="border-b border-slate-700/50">
+                    <td class="p-3 text-white font-medium">${a.patient}</td>
+                    <td class="p-3 text-slate-300 text-xs">${a.date} (${a.time})</td>
+                    <td class="p-3 text-slate-400 text-xs">${a.notes}</td>
+                    <td class="p-3"><span class="text-xs font-semibold ${a.status === 'Approved' ? 'text-emerald-400' : 'text-amber-400'}">${a.status}</span></td>
+                    <td class="p-3 text-right"><button onclick="approveApp('${a.id}')" class="px-3 py-1 bg-indigo-600 text-white rounded text-xs">Approve</button></td>
+                </tr>
+            `).join('');
+        }
+
+        function approveApp(id) {
+            const item = appointments.find(x => x.id === id);
+            if(item) item.status = 'Approved';
+            renderDocQueue();
+        }
+
+        // Admin Panel Logic
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('admin-user').value;
+            const p = document.getElementById('admin-pass').value;
+            if(u === 'admin' && p === 'admin123') {
+                document.getElementById('admin-login-card').classList.add('hidden');
+                document.getElementById('admin-dashboard-card').classList.remove('hidden');
+                renderAdminDashboard();
+            } else {
+                alert("Invalid Admin Credentials! Use admin / admin123");
+            }
+        }
+
+        function logoutAdmin() {
+            document.getElementById('admin-dashboard-card').classList.add('hidden');
+            document.getElementById('admin-login-card').classList.remove('hidden');
+        }
+
+        function renderAdminDashboard() {
+            document.getElementById('adm-stat-total').innerText = appointments.length;
+            document.getElementById('adm-stat-pending').innerText = appointments.filter(a => a.status === 'Pending').length;
+            document.getElementById('adm-stat-approved').innerText = appointments.filter(a => a.status === 'Approved').length;
+
+            document.getElementById('admin-bookings-table').innerHTML = appointments.map(a => `
+                <tr class="border-b border-slate-700/50">
+                    <td class="p-3"><strong class="text-white">${a.patient}</strong><br><span class="text-xs text-slate-400">${a.id}</span></td>
+                    <td class="p-3">${a.doctor}<br><span class="text-xs text-indigo-400">${a.dept}</span></td>
+                    <td class="p-3 text-xs text-slate-300">${a.date}<br>${a.time}</td>
+                    <td class="p-3 text-xs text-slate-400">${a.notes}</td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold ${a.status === 'Approved' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'}">${a.status}</span></td>
+                    <td class="p-3 text-right space-x-1">
+                        <button onclick="adminSetStatus('${a.id}', 'Approved')" class="px-2 py-1 bg-emerald-600/20 text-emerald-400 rounded text-xs hover:bg-emerald-600 hover:text-white transition">Approve</button>
+                        <button onclick="adminDeleteBooking('${a.id}')" class="px-2 py-1 bg-red-600/20 text-red-400 rounded text-xs hover:bg-red-600 hover:text-white transition"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function adminSetStatus(id, newStatus) {
+            const item = appointments.find(x => x.id === id);
+            if(item) {
+                item.status = newStatus;
+                renderAdminDashboard();
+            }
+        }
+
+        function adminDeleteBooking(id) {
+            if(confirm("Are you sure you want to delete booking " + id + "?")) {
+                appointments = appointments.filter(x => x.id !== id);
+                renderAdminDashboard();
+            }
+        }
+    </script>
+</body>
+</html>
